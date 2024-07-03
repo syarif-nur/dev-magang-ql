@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('satuan_barang', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_barang');
+            $table->string('nama_satuan');
             $table->double('harga');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

@@ -17,6 +17,7 @@ class SatuanController extends Controller
         $field = $request->validated();
         Satuan::create([
             'id_barang' => $request->id_barang,
+            'nama_satuan' => $request->nama_satuan,
             'harga' => $request->harga,
             'status' => $request->status
         ]);

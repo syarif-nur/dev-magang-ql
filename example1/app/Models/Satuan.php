@@ -9,7 +9,7 @@ class Satuan extends Model
 {
     use HasFactory;
     protected $table = 'satuan_barang';
-    protected $fillable = ['id_barang','harga','status'];
+    protected $fillable = ['id_barang','nama_satuan','harga','status'];
 
     public function barang(){
         return $this->belongsTo(Barang::class, 'id_barang','id');

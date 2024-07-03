@@ -40,6 +40,7 @@ class BarangController extends Controller
         foreach($request->satuan as $sat){
             Satuan::create([
                 'id_barang' => $id['id'],
+                'nama_satuan' => $sat['nama_satuan'],
                 'harga' => $sat['harga'],
                 'status' => $sat['status'],
             ]);
