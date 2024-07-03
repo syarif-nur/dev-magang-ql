@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\TransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('index', [BarangController::class, 'index'])->name('barang.index');
 Route::get('list-barang/', [BarangController::class, 'get_barang'])->name('barang.get');
 Route::get('detail-barang/{id}', [BarangController::class, 'detail_barang'])->name('detail.get');
+Route::post('store-barang', [BarangController::class, 'store_barang'])->name('barang.store');
+Route::get('transaksi/{id}', [TransaksiController::class,'get_transaksi'])->name('transaksi.get');

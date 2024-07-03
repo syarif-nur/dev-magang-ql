@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Satuan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Requests\BarangFormRequest;
 
 class BarangController extends Controller
 {
@@ -41,5 +43,30 @@ class BarangController extends Controller
             "data" => $data
         ];
         return response($result, Response::HTTP_OK);
+    }
+
+    public function store_barang(BarangFormRequest $request)
+    {
+        $field = $request->validated();
+        // $field['img_url'] = asset('storage/' . $request->file('image')->store('images', 'public'));
+        $field['img_url'] = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/2560px-Placeholder_view_vector.svg.png";
+        $data = Barang::create($field);
+
+        // if (!$data) {
+        //     return 'error';
+        // }
+        foreach ($request->satuan as $single) {
+            Satuan::create([
+                'id_barang' => $data['id'],
+                'nama_satuan' => $single['nama_satuan'],
+                'harga' => $single['harga'],
+            ]);
+        }
+
+        $result = [
+            'message' => 'Success',
+            'error' => 'False',
+        ];
+        return response($result, Response::HTTP_CREATED);
     }
 }

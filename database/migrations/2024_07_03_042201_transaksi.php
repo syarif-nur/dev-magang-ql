@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create("master_barang", function (Blueprint $table) {
-            $table->bigIncrements("id");
-            $table->string("nama_barang");
-            $table->longText("img_url");
-            $table->integer("qty");
-            $table->tinyInteger("status")->default(1);
+        Schema::create("transaksi", function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('id_barang')->unsigned();
+            $table->bigInteger('id_satuan')->unsigned()->nullable();
+            $table->integer('qty');
+            $table->double('total_harga');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::drop('master_barang');
+        //
     }
 };

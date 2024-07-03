@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create("master_barang", function (Blueprint $table) {
-            $table->bigIncrements("id");
-            $table->string("nama_barang");
-            $table->longText("img_url");
-            $table->integer("qty");
-            $table->tinyInteger("status")->default(1);
-            $table->timestamps();
+        Schema::table('master_barang', function (Blueprint $table) {
+            $table->dropColumn(['qty']);
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::drop('master_barang');
+        Schema::table('master_barang', function (Blueprint $table) {
+            $table->integer('qty');
+        });
     }
 };

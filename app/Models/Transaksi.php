@@ -2,17 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Satuan;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Barang extends Model
+class Transaksi extends Model
 {
     use HasFactory;
-    protected $table = 'master_barang';
 
-    protected $fillable = ['nama_barang', 'img_url', 'status'];
-
+    protected $table = 'transaksi';
+    protected $fillable = ['id_barang','id_satuan','qty', 'total_harga', 'status'];
     public static function status($i)
     {
         switch ($i) {
@@ -27,7 +25,14 @@ class Barang extends Model
                 break;
         }
     }
-    public function satuan(){
-        return $this->hasMany(Satuan::class,'id_barang','id');
+
+    public function barang()
+    {
+        return $this->hasMany(Barang::class, 'id', 'id_barang');
+    }
+
+    public function satuan()
+    {
+        return $this->hasOne(Satuan::class, 'id', 'id_satuan');
     }
 }
