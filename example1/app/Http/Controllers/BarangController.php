@@ -33,7 +33,7 @@ class BarangController extends Controller
         $field = $request->validated();
         $id = Barang::create([
             'nama_barang' => $request->nama_barang,
-            'img_url' => asset('storage/' . $request->file('image')->store('images','public')),
+            'img_url' => asset($request->file('image')->store('image','public')),
             'status' => $request->status,
             'qty' => $request->qty
         ]);
