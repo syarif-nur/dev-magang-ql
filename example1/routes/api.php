@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('list-barang',[BarangController::class,'get_barang']);
 Route::get('detail-barang/{id}',[BarangController::class,'detail_barang']);
+Route::post('store-barang',[BarangController::class,'storebarang']);

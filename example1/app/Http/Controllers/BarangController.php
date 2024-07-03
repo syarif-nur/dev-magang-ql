@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BarangFormRequest;
 use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -26,5 +27,19 @@ class BarangController extends Controller
             'error' => 'false',
         ];
         return response($data,Response::HTTP_OK);
+    }
+    public function storebarang(BarangFormRequest $request){
+        $field = $request->validated();
+        Barang::create([
+            'nama_barang' => $request->nama_barang,
+            'img_url' => asset('storage/' . $request->file('image')->store('images','public')),
+            'status' => $request->status,
+            'qty' => $request->qty
+        ]);
+        $result = [
+            'message' => 'Success',
+            'error' => 'false',
+        ];
+        return response($result,response::HTTP_CREATED);
     }
 }
