@@ -11,7 +11,7 @@ class satuan_barang extends Model
 
     protected $table = 'satuan_barang';
 
-    protected $fillable = ['id_barang', 'harga', 'status'];
+    protected $fillable = ['nama_satuan','id_barang', 'harga', 'status'];
 
     public static function status($i){
         switch ($i){

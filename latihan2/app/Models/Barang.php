@@ -12,7 +12,7 @@ class Barang extends Model
 
     protected $table = 'master_barang';
 
-    protected $fillable = ['nama_barang', 'img_url', 'status', 'qty'];
+    protected $fillable = ['nama_barang', 'img_url', 'status'];
 
     public static function status($i){
         switch ($i){
