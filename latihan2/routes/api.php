@@ -23,6 +23,7 @@ Route::get('list-barang/', [BarangController::class, 'get_barang'])->name('baran
 Route::get('detail-barang/{id}', [BarangController::class, 'detail_barang'])->name('detail.get');
 Route::post('store-barang', [BarangController::class, 'store_barang'])->name('barang_store');
 Route::get('list-transaksi',[TransaksiController::class, 'get_transaksi'])->name('url,list');
+Route::put('update-barang/{id}',[BarangController::class, 'update_barang'])->name('barang.update');
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -54,4 +54,26 @@ class BarangController extends Controller
         ];
         return response($result, Response::HTTP_CREATED);
     }
+
+    public function update_barang(BarangFormRequest $request, $id){
+
+        $field = $request->validated();
+        Barang::find($id)->update($field);
+
+        satuan_barang::where('id_barang', $id)->delete();
+
+        foreach ($request->satuan as $single){
+            satuan_barang::create([
+                'id_barang' => $id,
+                'nama_satuan' => $single['nama_satuan'],
+                'harga' => $single['harga'],
+            ]);
+        }
+
+        $result = [
+            'message' => 'Success',
+            'error' => 'False'
+        ];
+        return response($result, Response::HTTP_OK);
+    }
 }
