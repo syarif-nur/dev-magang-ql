@@ -24,3 +24,4 @@ Route::get('detail-barang/{id}',[BarangController::class,'detail_barang']);
 Route::post('store-barang',[BarangController::class,'storebarang']);
 Route::get('satuan-barang',[SatuanController::class,'satuanbarang']);
 Route::post('tambahsatuan',[SatuanController::class,'tambahsatuan']);
+Route::put('ubahbarang/{id}',[BarangController::class,'ubahbarang']);

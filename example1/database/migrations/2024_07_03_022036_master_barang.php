@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('master_barang', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama_barang');
-            $table->longText('img_url');
+            $table->string('img_url');
             $table->tinyInteger('status')->default(1);
             $table->integer('qty');
             $table->timestamps();
