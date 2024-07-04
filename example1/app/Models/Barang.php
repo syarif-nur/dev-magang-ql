@@ -9,7 +9,7 @@ class Barang extends Model
 {
     use HasFactory;
     protected $table = 'master_barang';
-    protected $fillable = ['nama_barang','img_url','status','qty'];
+    protected $fillable = ['nama_barang','img_url'];
 
     public function satuan(){
         return $this->hasMany(Satuan::class,'id_barang','id');

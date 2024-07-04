@@ -33,9 +33,7 @@ class BarangController extends Controller
         $field = $request->validated();
         $id = Barang::create([
             'nama_barang' => $request->nama_barang,
-            'img_url' => $request->image,
-            'status' => $request->status,
-            'qty' => $request->qty
+            'img_url' => $request->image
         ]);
         foreach($request->satuan as $sat){
             Satuan::create([
@@ -52,15 +50,35 @@ class BarangController extends Controller
         return response($result,response::HTTP_CREATED);
     }
 
+    // public function update_barang_satuan(BarangFormRequest $request,$id){
+    //     $field = $request->validated();
+    //     Barang::where('id',$id)->update([
+    //         'nama_barang' => $request->nama_barang,
+    //         'img_url' => $request->image
+    //     ]);
+    //     Satuan::where('id',$id)->delete();
+    //     foreach ($request->satuan as $sat) {
+    //         Satuan::create([
+    //             'id_barang' => $id,
+    //             'nama_satuan' => $sat['nama_satuan'],
+    //             'harga' => $sat['harga'],
+    //             //'status' => $sat['status'],
+    //         ]);
+    //     }
+    //     $result = [
+    //         'message' => 'success',
+    //         'error' => 'false',
+    //     ];
+    //     return response($result,Response::HTTP_OK);
+    // }
+
     public function ubahbarang(BarangFormRequest $request,$id){
         $field = $request->validated();
         Barang::where('id',$id)->update([
             'nama_barang' => $request->nama_barang,
-            'img_url' => $request->image,
-            'status' => $request->status,
-            'qty' => $request->qty
+            'img_url' => $request->image
         ]);
-        Satuan::where('id',$id)->delete();
+        Satuan::where('id_barang',$id)->delete();
         foreach ($request->satuan as $sat) {
             Satuan::create([
                 'id_barang' => $id,
