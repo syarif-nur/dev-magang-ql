@@ -24,4 +24,6 @@ Route::get('index', [BarangController::class, 'index'])->name('barang.index');
 Route::get('list-barang/', [BarangController::class, 'get_barang'])->name('barang.get');
 Route::get('detail-barang/{id}', [BarangController::class, 'detail_barang'])->name('detail.get');
 Route::post('store-barang', [BarangController::class, 'store_barang'])->name('barang.store');
-Route::get('transaksi/{id}', [TransaksiController::class,'get_transaksi'])->name('transaksi.get');
+Route::get('transaksi/{id}', [TransaksiController::class, 'get_transaksi'])->name('transaksi.get');
+Route::put('update-barang/{id}', [BarangController::class, 'update_barang'])->name('barang.update');
+Route::put('update-barang-satuan/{id}', [BarangController::class, 'update_barang_satuan'])->name('barangsatuan.update');
