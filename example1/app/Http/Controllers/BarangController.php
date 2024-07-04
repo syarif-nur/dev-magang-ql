@@ -42,7 +42,7 @@ class BarangController extends Controller
                 'id_barang' => $id['id'],
                 'nama_satuan' => $sat['nama_satuan'],
                 'harga' => $sat['harga'],
-                'status' => $sat['status'],
+                //'status' => $sat['status']
             ]);
         }
         $result = [
@@ -66,7 +66,7 @@ class BarangController extends Controller
                 'id_barang' => $id,
                 'nama_satuan' => $sat['nama_satuan'],
                 'harga' => $sat['harga'],
-                'status' => $sat['status'],
+                //'status' => $sat['status'],
             ]);
         }
         $result = [
