@@ -14,4 +14,8 @@ class Supplier extends Model
     public function supplierAddress(){
         return $this->hasMany(SupplierAddress::class,'supplier_id','id');
     }
+
+    public function company(){
+        return $this->hasMany(Company::class,'supplier_id','id');
+    }
 }

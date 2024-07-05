@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\SatuanController;
+use App\Http\Controllers\supplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,4 @@ Route::get('satuan-barang',[SatuanController::class,'satuanbarang']);
 Route::post('tambahsatuan',[SatuanController::class,'tambahsatuan']);
 // Route::put('ubahbarang/{id}',[BarangController::class,'update_barang_satuan']);
 Route::put('ubahbarang/{id}',[BarangController::class,'ubahbarang']);
+Route::post('addsupplier',[supplierController::class,'addsupplier']);

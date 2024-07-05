@@ -14,6 +14,10 @@ class Barang extends Model
     public function satuan(){
         return $this->hasMany(Satuan::class,'id_barang','id');
     }
+
+    public function transaksiSupplier(){
+        return $this->hasMany(TransaksiSupplier::class,'barang_id','id');
+    }
     public static function status($i){
         switch ($i) {
             case 1:
