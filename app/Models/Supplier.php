@@ -27,4 +27,12 @@ class Supplier extends Model
                 break;
         }
     }
+
+    public function supplieraddress(){
+        return $this->hasMany(SupplierAddress::class,'supplier_id','id');
+    }
+
+    public function company(){
+        return $this->hasMany(Company::class,'supplier_id','id');
+    }
 }

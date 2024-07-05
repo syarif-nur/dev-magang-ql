@@ -28,7 +28,7 @@ class Transaksi extends Model
 
     public function barang()
     {
-        return $this->hasMany(Barang::class, 'id', 'id_barang');
+        return $this->hasOne(Barang::class, 'id', 'id_barang');
     }
 
     public function satuan()

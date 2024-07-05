@@ -30,8 +30,8 @@ class Company extends Model
         }
     }
 
-    public function supplier()
+    public function transaksi()
     {
-        return $this->hasMany(Supplier::class, 'id', 'supplier_id');
+        return $this->hasMany(TransaksiSupplier::class, 'company_id', 'id');
     }
 }

@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransaksiController;
 
 /*
@@ -27,3 +29,6 @@ Route::post('store-barang', [BarangController::class, 'store_barang'])->name('ba
 Route::get('transaksi/{id}', [TransaksiController::class, 'get_transaksi'])->name('transaksi.get');
 Route::put('update-barang/{id}', [BarangController::class, 'update_barang'])->name('barang.update');
 Route::put('update-barang-satuan/{id}', [BarangController::class, 'update_barang_satuan'])->name('barangsatuan.update');
+Route::get('list-supplier', [SupplierController::class, 'get_supplier'])->name('supplier.get');
+Route::get('list-company', [CompanyController::class, 'get_company'])->name('company.get');
+Route::post('add-supplier', [SupplierController::class, 'add_supplier'])->name('supplier.add');
