@@ -4780,3 +4780,7 @@ DETAIL:  Failing row contains (38, null, null, null, null, 2024-07-04 03:52:50, 
 [stacktrace]
 #0 {main}
 "} 
+[2024-07-05 04:40:38] local.ERROR: syntax error, unexpected token "}", expecting ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \";\" at C:\\Users\\daniel c\\OneDrive\\Documents\\dev-magang-ql\\example1\\app\\Models\\Supplier.php:16)
+[stacktrace]
+#0 {main}
+"} 

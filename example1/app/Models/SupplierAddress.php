@@ -11,5 +11,8 @@ class SupplierAddress extends Model
     protected $table = 'supplier_address';
     protected $fillable = ['supplier_id','address','city','state','zipcode','country'];
 
+    public function supplier(){
+        return $this->belongsTo(Supplier::class,'supplier_id','id');
+    }
 
 }
