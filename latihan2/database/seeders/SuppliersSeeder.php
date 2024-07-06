@@ -4,33 +4,27 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Supplier;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
-
-class MasterBarangSeeder extends Seeder
+class SuppliersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run()
+    public function run(): void
     {
         $faker = Faker::create();
 
-        $data = [];
-        $id = DB::table('suppliers')->max('id') + 1;
-        for ($i = 0; $i < 5; $i++){
-            $data[] = [
-                'id' => $id++,
+        // Generate random data for 10 suppliers
+        for ($i = 0; $i < 10; $i++) {
+            Supplier::create([
                 'firstname' => $faker->firstName,
                 'lastname' => $faker->lastName,
                 'email' => $faker->unique()->safeEmail,
                 'phone' => $faker->phoneNumber,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
+            ]);
         }
-
-        DB::table('suppliers')->insert($data);
     }
 }

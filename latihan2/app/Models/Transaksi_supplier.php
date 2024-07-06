@@ -9,9 +9,9 @@ class Transaksi_supplier extends Model
 {
     use HasFactory;
 
-    protected $table = 'supplier_addresses';
+    protected $table = 'transaksi_supplier';
 
-    protected $fillable = ['supplier_id','address','city','state','zipcode','country'];
+    protected $fillable = ['barang_id','satuan_id','company_id','transaction_date','amount','transaction_type','description'];
 
     public static function status($i){
         switch ($i){
@@ -26,4 +26,14 @@ class Transaksi_supplier extends Model
                 break;
         }
     }
+
+    public function barang() {
+        return $this->belongsTo(Barang::class,'barang_id','id');
+    }
+
+    public function satuan() {
+        return $this->belongsTo(satuan_barang::class,'barang_id','id');
+    }
+
+    
 }

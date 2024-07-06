@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TransaksiController;
@@ -24,6 +25,8 @@ Route::get('detail-barang/{id}', [BarangController::class, 'detail_barang'])->na
 Route::post('store-barang', [BarangController::class, 'store_barang'])->name('barang_store');
 Route::get('list-transaksi',[TransaksiController::class, 'get_transaksi'])->name('url,list');
 Route::put('update-barang/{id}',[BarangController::class, 'update_barang'])->name('barang.update');
+Route::get('list-supplier/', [SupplierController::class, 'get_supplier'])->name('supplier.get');
+Route::post('store-supplier', [SupplierController::class, 'store_supplier'])->name('suplier_store');
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

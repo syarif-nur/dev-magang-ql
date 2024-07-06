@@ -9,7 +9,7 @@ class Supplier extends Model
 {
     use HasFactory;
 
-    protected $table = 'suppliers';
+    protected $table = 'supplier';
 
     protected $fillable = ['firstname','lastname','email','phone',];
 
@@ -32,7 +32,6 @@ class Supplier extends Model
         return $this->hasMany(Supplier_address::class, 'supplier_id', 'id');
     }
 
-    // Define relationship with Company
     public function companies()
     {
         return $this->hasMany(Company::class, 'supplier_id', 'id');
