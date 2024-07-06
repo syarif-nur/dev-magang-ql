@@ -22,10 +22,10 @@ class SupplierFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'email' => 'required',
-            'phone' => 'required|numeric',
+            // 'firstname' => 'required',
+            // 'lastname' => 'required',
+            // 'email' => 'required',
+            // 'phone' => 'required|numeric',
         ];
     }
 }
