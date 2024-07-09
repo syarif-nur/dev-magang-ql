@@ -25,6 +25,6 @@ class TransaksiSupplier extends Model
 
     public function company()
     {
-        return $this->hasOne(Company::class, 'id', 'company_id');
+        return $this->hasMany(Company::class, 'id', 'company_id');
     }
 }

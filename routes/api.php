@@ -32,3 +32,4 @@ Route::put('update-barang-satuan/{id}', [BarangController::class, 'update_barang
 Route::get('list-supplier', [SupplierController::class, 'get_supplier'])->name('supplier.get');
 Route::get('list-company', [CompanyController::class, 'get_company'])->name('company.get');
 Route::post('add-supplier', [SupplierController::class, 'add_supplier'])->name('supplier.add');
+Route::put('update-supplier/{id}', [SupplierController::class, 'update_supplier'])->name('supplier.update');

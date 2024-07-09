@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SupplierFormRequest;
 use App\Models\Company;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
@@ -72,5 +73,57 @@ class SupplierController extends Controller
             'error' => 'False'
         ];
         return response($result, Response::HTTP_CREATED);
+    }
+
+    public function update_supplier(SupplierFormRequest $request, $id)
+    {
+        $field = $request->validated();
+        Supplier::find($id)->update($field);
+        SupplierAddress::where('supplier_id', $id)->delete();
+        foreach ($request->supplier_address as $sa) {
+            SupplierAddress::create([
+                'supplier_id' => $id,
+                'address' => $sa['address'],
+                'city' => $sa['city'],
+                'state' => $sa['state'],
+                'zipcode' => $sa['zipcode'],
+                'country' => $sa['country'],
+            ]);
+        }
+
+        $company_id = Company::where('supplier_id', $id)->first();
+        TransaksiSupplier::where('company_id', $company_id->id)->delete();
+        Company::where('supplier_id', $id)->delete();
+
+        foreach ($request->company as $c) {
+            $company = Company::create([
+                'supplier_id' => $id,
+                'company_name' => $c['company_name'],
+                'address' => $c['address'],
+                'city' => $c['city'],
+                'state' => $c['state'],
+                'postal_code' => $c['postal_code'],
+                'country' => $c['country'],
+                'phone_number' => $c['phone_number'],
+                'website' => $c['website'],
+
+            ]);
+            foreach ($c['transaksi'] as $transaksi) {
+                TransaksiSupplier::create([
+                    'barang_id' => $transaksi['barang_id'],
+                    'satuan_id' => $transaksi['satuan_id'],
+                    'company_id' => $company['id'],
+                    'transaction_date' => $transaksi['transaction_date'],
+                    'amount' => $transaksi['amount'],
+                    'transaction_type' => $transaksi['transaction_type'],
+                    'description' => $transaksi['description'],
+                ]);
+            }
+        }
+        $result = [
+            'status' => 'success',
+            'error' => 'False'
+        ];
+        return response($result, Response::HTTP_OK);
     }
 }
