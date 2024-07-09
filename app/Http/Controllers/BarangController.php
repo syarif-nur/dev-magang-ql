@@ -34,10 +34,11 @@ class BarangController extends Controller
     }
     public function store_barang(BarangFormRequest $request)
     {
-        $field = $request->validated();
+        $validated = $request->validated();
        // $field ['img_url'] = asset('stronge/' .$request->file('image')->store('images', 'public'));
        $field['img_url'] = "https://upload.wikipedia.org/wikipedia/commons/3/3f/Placeholder_voew_vector.svg";
         $data = Barang::create($field);
+
 
       foreach ($request->satuan as $single) {
         Satuan::create([

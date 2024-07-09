@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('state');
             $table->string('zipcode');
             $table->string('country');
+        $table->tinyInteger('status')->default(1);
             $table->timestamps();
     });
 }

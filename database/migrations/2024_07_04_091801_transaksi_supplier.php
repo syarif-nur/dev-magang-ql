@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('amount', 16, 2);
             $table->enum('transaction_type', ['REFUND', 'PURCHASE']);
             $table->string('description');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
     });
 }

@@ -29,6 +29,8 @@ class Barang extends Model
                 break;
     }
 }
+
+
     public function satuan(){
         return $this->hasMany(Satuan::class,'barang_id','id');
     }

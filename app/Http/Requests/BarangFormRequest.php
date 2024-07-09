@@ -22,8 +22,13 @@ class BarangFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_barang' => 'required',
-            //'image' => 'required',
+            'nama_barang' => 'sometimes|required',
+            'image'=> 'sometimes|required',
+            'status'=> 'sometimes|required',
+           // 'qty'=> 'sometimes|required',
+           'img_url' => 'sometimes|required|nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'satuan.*.nama_satuan' => 'sometimes|required|string|max:255',
+            'satuan.*.harga' => 'sometimes|required|numeric',
         ];
     }
 }

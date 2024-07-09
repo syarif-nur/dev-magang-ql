@@ -12,7 +12,7 @@ class DataSupplier extends Model
     use HasFactory;
 
     protected $table = 'supplier';
-    protected $fillable = ['firstname', 'lastname', 'email', 'phone'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'phone', 'status'];
 
     public static function status ($i){
         switch ($i) {

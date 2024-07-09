@@ -12,7 +12,7 @@ class SupplierAddress extends Model
     use HasFactory;
 
     protected $table = 'supplier_address';
-    protected $fillable = ['supplier_id', 'address', 'city', 'state', 'zipcode', 'country'];
+    protected $fillable = ['supplier_id', 'address', 'city', 'state', 'zipcode', 'country', 'status'];
 
     public static function status($i)
     {

@@ -12,8 +12,9 @@ class Supplier extends Model
     use HasFactory;
 
     protected $table = 'supplier';
-    protected $fillable = ['firstname', 'lastname', 'email', 'phone'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'phone', 'status'];
 
+    protected $dates = ['deleted_at']; // Pastikan mengatur 'deleted_at' sebagai tanggal
     public static function status($i)
     {
         switch ($i) {

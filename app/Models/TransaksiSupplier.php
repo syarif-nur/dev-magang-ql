@@ -12,7 +12,7 @@ class TransaksiSupplier extends Model
     use HasFactory;
 
     protected $table = 'transaksi_supplier';
-    protected $fillable = ['barang_id', 'satuan_id', 'company_id', 'transaction_date', 'amount', 'transaction_type', 'description'];
+    protected $fillable = ['barang_id', 'satuan_id', 'company_id', 'transaction_date', 'amount', 'transaction_type', 'description', 'status'];
 
     public static function status($i)
     {

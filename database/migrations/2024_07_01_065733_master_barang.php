@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table-> string('nama_barang');
             $table->longText('img_url');
-            $table->integer('qty');
+            //$table->integer('qty');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
