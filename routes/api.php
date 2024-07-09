@@ -19,3 +19,14 @@ Route::get('index-link', [BarangController::class, 'index'])->name('barang.index
 // {
 //     return $request->user();
 // })->middleware('auth:sanctum');
+//barang
+Route::get('list-barang/', [BarangController::class, 'get_barang'])->name('barang.get');
+Route::get('detail-barang/{id}', [BarangController::class, 'detail_barang'])->name('detail.get');
+Route::post('store-barang', [BarangController::class, 'store_barang'])->name('barang.store');
+Route::get('list-transaksi/', [TransaksiController::class, 'get_transaksi'])->name('transaksi.get');
+Route::put('update-barang/{id}', [BarangController::class, 'update_barang'])->name('barang.update');
+
+//supplier
+Route::post('add-supplier', [SupplierController::class, 'add_supplier'])->name('supplier.add');
+Route::get('/supplier/create', [SupplierController::class,'create'])->name('supplier.create');
+

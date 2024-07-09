@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class supplier_address extends Model
 {
     use HasFactory;
     protected $table = 'supplier_address';
-    protected $fillable = ['id', 'supplier_id', 'address', 'city', 'state', 'zipcode', 'country'];
+    protected $fillable = ['supplier_id', 'address', 'city', 'state', 'zipcode', 'country'];
 
     public static function status($i)
     {
@@ -24,5 +26,10 @@ class supplier_address extends Model
                     return 'default';
                     break;
         }
+    }
+
+     public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 }
