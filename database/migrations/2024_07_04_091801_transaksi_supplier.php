@@ -17,8 +17,8 @@ return new class extends Migration
             $table->bigInteger('satuan_id');
             $table->bigInteger('company_id');
             $table->date('transaction_date');
-            $table->decimal('amount');
-            $table->enum('transaction_type');
+            $table->decimal('amount', 16, 2);
+            $table->enum('transaction_type', ['REFUND', 'PURCHASE']);
             $table->string('description');
             $table->timestamps();
     });
