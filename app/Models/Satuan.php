@@ -11,7 +11,7 @@ class Satuan extends Model
 {
     use HasFactory;
     protected $table = 'master_barang';
-    protected $fillable = ['nama_makanan', 'img_url', 'price', 'qty'];
+    protected $fillable = ['nama_barang', 'img_url', 'price', 'qty'];
 
 
     public static function status($i)
@@ -28,4 +28,7 @@ class Satuan extends Model
                 break;
     }
 }
+ public function Barang(){
+        return $this->belongsTo(Barang::class);
+    }
 }

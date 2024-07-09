@@ -12,9 +12,10 @@ class Company extends Model
     use HasFactory;
 
     protected $table = 'company';
-    protected $fillable = ['supplier_id', 'company_name', 'address', 'city', 'state', 'postal_code', 'contry', 'phone_number', 'website'];
+    protected $fillable = ['supplier_id', 'company_name', 'address', 'city', 'state', 'postal_code', 'country', 'phone_number', 'website'];
 
-    public static function status($i) {
+    public static function status($i)
+    {
         switch ($i) {
             case 1:
                 return 'Active';
@@ -27,4 +28,7 @@ class Company extends Model
                 break;
     }
 }
+   public function supplier(){
+    return $this->hasMany(Supplier::class, 'supplier_id', 'id');
+   }
 }

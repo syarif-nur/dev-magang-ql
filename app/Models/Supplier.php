@@ -14,7 +14,8 @@ class Supplier extends Model
     protected $table = 'supplier';
     protected $fillable = ['firstname', 'lastname', 'email', 'phone'];
 
-    public static function status ($i){
+    public static function status($i)
+    {
         switch ($i) {
         case 1;
             return 'Active';
@@ -26,5 +27,13 @@ class Supplier extends Model
             return 'default';
          break;
     }
+}
+
+    public function supplieraddress() {
+        return $this->hasMany(SupplierAddress::class, 'supplier_id', 'id');
+
+}
+    public function TransaksiSupplier() {
+        return $this->hasMany(TransaksiSupplier::class,'supplier_id', 'id');
 }
 }

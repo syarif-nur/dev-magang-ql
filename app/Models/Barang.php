@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use PhpParser\Node\Stmt\Break_;
 
 class Barang extends Model
@@ -29,4 +29,11 @@ class Barang extends Model
                 break;
     }
 }
+    public function satuan(){
+        return $this->hasMany(Satuan::class,'barang_id','id');
+    }
+
+    public function TransaksiSupplier(){
+        return $this->belongsTo(TransaksiSupplier::class);
+    }
 }

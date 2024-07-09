@@ -14,7 +14,8 @@ class TransaksiSupplier extends Model
     protected $table = 'transaksi_supplier';
     protected $fillable = ['barang_id', 'satuan_id', 'company_id', 'transaction_date', 'amount', 'transaction_type', 'description'];
 
-    public static function status($i) {
+    public static function status($i)
+    {
         switch ($i) {
             case 1:
                 return 'Active';
@@ -27,4 +28,15 @@ class TransaksiSupplier extends Model
                 break;
     }
 }
+    public function barang() {
+        return $this->hasMany(Barang::class, 'barang_id', 'id');
+    }
+    public function satuan() {
+        return $this->belongsTo(Satuan::class);
+
+}
+public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

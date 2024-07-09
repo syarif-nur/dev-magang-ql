@@ -14,7 +14,8 @@ class SupplierAddress extends Model
     protected $table = 'supplier_address';
     protected $fillable = ['supplier_id', 'address', 'city', 'state', 'zipcode', 'country'];
 
-    public static function status ($i) {
+    public static function status($i)
+    {
         switch ($i) {
             case 1:
                 return 'Active';
@@ -28,4 +29,8 @@ class SupplierAddress extends Model
 
     }
 }
+        public function supplier()
+            {
+                return $this->belongsTo(Supplier::class);
+            }
 }
