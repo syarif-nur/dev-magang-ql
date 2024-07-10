@@ -102,7 +102,7 @@ class SupplierController extends Controller
     $supplier->save();
 
     // Jika ada data supplier_address dalam request, proses untuk update atau tambah
-    if ($request->has('supplier_address') && is_array($request->supplier_address)) {
+    if ($request->has('supplier_address')) {
         // Hapus semua alamat supplier yang terkait sebelumnya
         Supplier_address::where('supplier_id', $id)->delete();
 
@@ -120,7 +120,7 @@ class SupplierController extends Controller
     }
 
     // Jika ada data company dalam request, proses untuk update atau tambah
-    if ($request->has('company') && is_array($request->company)) {
+    if ($request->has('company')) {
         // Hapus semua company yang terkait sebelumnya
         Company::where('supplier_id', $id)->delete();
 
@@ -183,18 +183,18 @@ class SupplierController extends Controller
 
     return response($result, Response::HTTP_OK);
 }
-public function list_supplier(Request $request)
+public function list_suppliers(Request $request)
     {
         // Ambil parameter search dari request
         $search = $request->input('B');
 
         // Query untuk mencari supplier berdasarkan nama depan atau nama belakang jika ada parameter search
-        $supplier = Supplier::where(function ($query) use ($search) {
+        $suppliers = Supplier::where(function ($query) use ($search) {
             $query->where('firstname', 'like', "%$search%")
                 ->orWhere('lastname', 'like', "%$search%");
         })->get();
 
         // Kembalikan data supplier dalam format JSON
-        return response()->json($supplier, Response::HTTP_OK);
+        return response()->json($suppliers, Response::HTTP_OK);
     }
 }
