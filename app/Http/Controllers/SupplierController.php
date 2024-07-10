@@ -36,82 +36,142 @@ class SupplierController extends Controller
         }
 
 
+public function update_supplier(SupplierFormRequest $request, $id)
+{
+    $supplier = Supplier::find($id);
 
-            public function update_supplier(SupplierFormRequest $request, $id){
+    if (!$supplier) {
+        return response()->json(['message' => 'Supplier not found'], 404);
+    }
+    $supplier->update([
+        'firstname' => $request->input('firstname'),
+        'lastname' => $request->input('lastname'),
+        'email' => $request->input('email'),
+        'phone' => $request->input('phone'),
+        // Tambahkan kolom-kolom lain yang perlu diupdate
+    ]);
 
-                    // Find the supplier
-                    $field = $request->all();
-                    Supplier::find($id)->update($field);
 
-                    // Delete existing supplier addresses
-                    SupplierAddress::where('supplier_id', $id)->delete();
-                    $existingCompanies = Company::where('supplier_id', $id)->get();
-                    foreach ($existingCompanies as $company) {
-                        TransaksiSupplier::where('company_id', $company->id)->delete();
-                        $company->delete();
-                    }
 
-                    // Update the supplier
-                    $data = Supplier::create([
-                        'firstname' => $field['supplier']['firstname'],
-                        'lastname' => $field['supplier']['lastname'],
-                        'email' => $field['supplier']['email'],
-                        'phone' => $field['supplier']['phone'],
+
+    // Update atau tambah alamat supplier jika ada dalam request
+    if ($request->has('supplier_address')) {
+        foreach ($request->input('supplier_address') as $address) {
+            // Jika alamat memiliki ID, maka update alamat tersebut
+            if (isset($address['id'])) {
+                $existingAddress = SupplierAddress::find($address['id']);
+                if ($existingAddress) {
+                    $existingAddress->update([
+                        'address' => $address['address'],
+                        'city' => $address['city'],
+                        'state' => $address['state'],
+                        'zipcode' => $address['zipcode'],
+                        'country' => $address['country'],
                     ]);
+                }
+            } else {
+                // Jika alamat tidak memiliki ID, maka buat alamat baru
+                SupplierAddress::create([
+                    'supplier_id' => $id,
+                    'address' => $address['address'],
+                    'city' => $address['city'],
+                    'state' => $address['state'],
+                    'zipcode' => $address['zipcode'],
+                    'country' => $address['country'],
+                ]);
+            }
+        }
+    }
 
-                    // Update or create supplier addresses
-                    foreach ($request -> supplier_address as $single) {
-                        SupplierAddress::create(
-                            [
-                                'supplier_id' => $data,
-                                'address' => $single['address'],
-                                'city' => $single['city'],
-                                'state' => $single['state'],
-                                'zipcode' => $single['zipcode'],
-                                'country' => $single['country'],
-                            ]
-                        );
-                    }
 
-                    // Update or create companies and transactions
-                    foreach ($request -> company as $companyData) {
-                        $company = Company::create(
-                            [
-                                'supplier_id' => $data->id,
-                                'company_name' => $companyData['company_name'],
-                                'address' => $companyData['address'],
-                                'city' => $companyData['city'],
-                                'state' => $companyData['state'],
-                                'postal_code' => $companyData['postal_code'],
-                                'country' => $companyData['country'],
-                                'phone_number' => $companyData['phone_number'],
-                                'website' => $companyData['website'],
-                            ]
-                        );
+   if ($request->has('company')) {
+    foreach ($request->input('company') as $companyData) {
+        // Periksa apakah ID ada dan tidak null
+        $companyId = $companyData['id'] ?? null;
 
-                        foreach ($companyData['transaksi'] as $transaksiData) {
-                            TransaksiSupplier::create(
-                                [
+        if (!empty($companyId)) {
+            $existingCompany = Company::find($companyId);
+            if ($existingCompany) {
+                $existingCompany->update([
+                    'company_name' => $companyData['company_name'],
+                    'address' => $companyData['address'],
+                    'city' => $companyData['city'],
+                    'state' => $companyData['state'],
+                    'postal_code' => $companyData['postal_code'],
+                    'country' => $companyData['country'],
+                    'phone_number' => $companyData['phone_number'],
+                    'website' => $companyData['website'],
+                ]);
+
+                // Update transaksi_supplier
+                if (isset($companyData['transaksi_supplier'])) {
+                    foreach ($companyData['transaksi_supplier'] as $transaksiData) {
+                        $transaksiId = $transaksiData['id'] ?? null;
+                        if (!empty($transaksiId)) {
+                            $existingTransaksi = TransaksiSupplier::find($transaksiId);
+                            if ($existingTransaksi) {
+                                $existingTransaksi->update([
                                     'barang_id' => $transaksiData['barang_id'],
                                     'satuan_id' => $transaksiData['satuan_id'],
-                                    'company_id' => $company->id,
                                     'transaction_date' => $transaksiData['transaction_date'],
                                     'amount' => $transaksiData['amount'],
                                     'transaction_type' => $transaksiData['transaction_type'],
                                     'description' => $transaksiData['description'],
-                                ]
-                            );
+                                ]);
+                            }
+                        } else {
+                            // Jika transaksi tidak memiliki ID, maka buat transaksi baru
+                            TransaksiSupplier::create([
+                                'company_id' => $existingCompany->id,
+                                'barang_id' => $transaksiData['barang_id'],
+                                'satuan_id' => $transaksiData['satuan_id'],
+                                'transaction_date' => $transaksiData['transaction_date'],
+                                'amount' => $transaksiData['amount'],
+                                'transaction_type' => $transaksiData['transaction_type'],
+                                'description' => $transaksiData['description'],
+                            ]);
                         }
                     }
-                    $result = [
-                        'message' => 'Success',
-                        'error' => 'False'
-                    ];
-                    return response($result, Response::HTTP_CREATED);
-                    }
+                }
+            }
+        } else {
+            // Jika company tidak memiliki ID, maka buat company baru
+            $newCompany = Company::create([
+                'supplier_id' => $id,
+                'company_name' => $companyData['company_name'],
+                'address' => $companyData['address'],
+                'city' => $companyData['city'],
+                'state' => $companyData['state'],
+                'postal_code' => $companyData['postal_code'],
+                'country' => $companyData['country'],
+                'phone_number' => $companyData['phone_number'],
+                'website' => $companyData['website'],
+            ]);
+
+            if (isset($companyData['transaksi_supplier'])) {
+                foreach ($companyData['transaksi_supplier'] as $transaksiData) {
+                    TransaksiSupplier::create([
+                        'company_id' => $newCompany->id,
+                        'barang_id' => $transaksiData['barang_id'],
+                        'satuan_id' => $transaksiData['satuan_id'],
+                        'transaction_date' => $transaksiData['transaction_date'],
+                        'amount' => $transaksiData['amount'],
+                        'transaction_type' => $transaksiData['transaction_type'],
+                        'description' => $transaksiData['description'],
+                    ]);
+                }
+            }
+        }
+    }
+}
 
 
-                    
+    return response()->json(['message' => 'Supplier updated successfully'], Response::HTTP_OK);
+}
+
+
+
+
                 // Fungsi untuk menghapus supplier berdasarkan ID
                 public function destroy($id)
             {
