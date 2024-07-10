@@ -35,7 +35,7 @@ class Barang extends Model
         return $this->hasMany(Satuan::class,'barang_id','id');
     }
 
-    public function TransaksiSupplier(){
+    public function tarnsaksisupplier(){
         return $this->belongsTo(TransaksiSupplier::class);
     }
 }

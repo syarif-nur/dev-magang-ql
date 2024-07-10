@@ -34,9 +34,14 @@ class TransaksiSupplier extends Model
     public function satuan() {
         return $this->belongsTo(Satuan::class);
 
-}
-public function company()
+    }
+    public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 }

@@ -14,7 +14,6 @@ class Supplier extends Model
     protected $table = 'supplier';
     protected $fillable = ['firstname', 'lastname', 'email', 'phone', 'status'];
 
-    protected $dates = ['deleted_at']; // Pastikan mengatur 'deleted_at' sebagai tanggal
     public static function status($i)
     {
         switch ($i) {
@@ -34,7 +33,10 @@ class Supplier extends Model
         return $this->hasMany(SupplierAddress::class, 'supplier_id', 'id');
 
 }
-    public function TransaksiSupplier() {
-        return $this->hasMany(TransaksiSupplier::class,'supplier_id', 'id');
+    public function transaksisupplier() {
+        return $this->hasMany(TransaksiSupplier::class,'company_id', 'id');
+}
+    public function company() {
+        return $this->hasMany(Company::class,'supplier_id', 'id');
 }
 }
