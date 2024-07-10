@@ -29,4 +29,6 @@ Route::put('update-barang/{id}', [BarangController::class, 'update_barang'])->na
 //supplier
 Route::post('add-supplier', [SupplierController::class, 'add_supplier'])->name('supplier.add');
 Route::get('/supplier/create', [SupplierController::class,'create'])->name('supplier.create');
-
+Route::put('update-supplier/{id}', [SupplierController::class, 'update_supplier'])->name('supplier.update');
+Route::delete('delete-supplier/{id}', [SupplierController::class,'delete_supplier'])->name('supplier.delete');
+Route::get('/list-supplier', [SupplierController::class,'list_supplier'])->name('supplier.list');
