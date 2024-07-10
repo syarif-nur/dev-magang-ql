@@ -23,6 +23,9 @@ class SupplierFromRequest extends FormRequest
     {
         return [
             'firstname' => 'required',
+            // 'supplier.lastname' => 'required',
+            // 'supplier.email' => 'required',
+            // 'supplier.phone' => 'required',
         ];
     }
 }

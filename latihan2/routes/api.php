@@ -27,6 +27,7 @@ Route::get('list-transaksi',[TransaksiController::class, 'get_transaksi'])->name
 Route::put('update-barang/{id}',[BarangController::class, 'update_barang'])->name('barang.update');
 Route::get('list-supplier/', [SupplierController::class, 'get_supplier'])->name('supplier.get');
 Route::post('store-supplier', [SupplierController::class, 'store_supplier'])->name('suplier_store');
+Route::put('update-supplier/{id}',[SupplierController::class, 'update_supplier'])->name('supplier.update');
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
