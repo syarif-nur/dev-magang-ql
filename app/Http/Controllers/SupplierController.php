@@ -77,8 +77,11 @@ class SupplierController extends Controller
 
     public function update_supplier(SupplierFormRequest $request, $id)
     {
+        //update data supplier
         $field = $request->validated();
         Supplier::find($id)->update($field);
+
+        //update data SupplierAddress
         SupplierAddress::where('supplier_id', $id)->delete();
         foreach ($request->supplier_address as $sa) {
             SupplierAddress::create([
@@ -91,10 +94,15 @@ class SupplierController extends Controller
             ]);
         }
 
-        $company_id = Company::where('supplier_id', $id)->first();
-        TransaksiSupplier::where('company_id', $company_id->id)->delete();
+        //delete transaksi masing-masing company
+        $company_id = Company::where('supplier_id', $id)->get();
+        foreach ($company_id as $company) {
+            TransaksiSupplier::where('company_id', $company->id)->delete();
+        }
+        //delete company
         Company::where('supplier_id', $id)->delete();
 
+        //create company
         foreach ($request->company as $c) {
             $company = Company::create([
                 'supplier_id' => $id,
@@ -108,6 +116,7 @@ class SupplierController extends Controller
                 'website' => $c['website'],
 
             ]);
+            //create transaksi masing-masing company
             foreach ($c['transaksi'] as $transaksi) {
                 TransaksiSupplier::create([
                     'barang_id' => $transaksi['barang_id'],
