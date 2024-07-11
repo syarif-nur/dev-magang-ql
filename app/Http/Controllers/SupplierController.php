@@ -139,14 +139,18 @@ class SupplierController extends Controller
             ]);
 
             foreach ($companyData['transaksi'] as $transaksi) {
-                Transaksi_supplier::create([
-                    'barang_id' => $transaksi['barang_id'],
-                    'satuan_id' => $transaksi['satuan_id'],
-                    'company_id' => $company->id,
-                    'transaction_date' => $transaksi['transaction_date'],
-                    'amount' => $transaksi['amount'],
-                    'transaction_type' => $transaksi['transaction_type'],
-                    'description' => $transaksi['description'],
+                // Update atau buat entri transaksi
+                Transaksi_supplier::updateOrCreate(
+                    [
+                        'company_id' => $company->id,
+                        'barang_id' => $transaksi['barang_id'],
+                        'satuan_id' => $transaksi['satuan_id'],
+                        'transaction_date' => $transaksi['transaction_date']
+                    ],
+                    [
+                        'amount' => $transaksi['amount'],
+                        'transaction_type' => $transaksi['transaction_type'],
+                        'description' => $transaksi['description'],
                 ]);
             }
         }
