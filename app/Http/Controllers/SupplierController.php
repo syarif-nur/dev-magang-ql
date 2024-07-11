@@ -41,34 +41,35 @@ class SupplierController extends Controller
     }
 
 
+            public function update_supplier(SupplierFormRequest $request, $id)
+            {
+                // Cari dan update supplier
+                $supplier = Supplier::find($id);
 
-            public function update_supplier(SupplierFormRequest $request, $id){
+                if (!$supplier) {
+                    return response()->json(['message' => 'Supplier not found'], 404);
+                }
 
-                    // Find the supplier
-                    $field = $request->all();
-                    Supplier::find($id)->update($field);
+                $validatedData = $request->validated();
 
-                    // Delete existing supplier addresses
-                    SupplierAddress::where('supplier_id', $id)->delete();
-                    $existingCompanies = Company::where('supplier_id', $id)->get();
-                    foreach ($existingCompanies as $company) {
-                        TransaksiSupplier::where('company_id', $company->id)->delete();
-                        $company->delete();
-                    }
 
-                    // Update the supplier
-                    $data = Supplier::create([
-                        'firstname' => $field['supplier']['firstname'],
-                        'lastname' => $field['supplier']['lastname'],
-                        'email' => $field['supplier']['email'],
-                        'phone' => $field['supplier']['phone'],
+                    // Update data supplier
+                    $supplier->update([
+                        "firstname" => $validatedData['firstname'],
+                        'lastname' => $validatedData['lastname'], // Jika 'lastname' opsional
+                        "email" => $validatedData['email'],
+                        "phone" => $validatedData['phone'],
                     ]);
 
-                    // Update or create supplier addresses
-                    foreach ($request -> supplier_address as $single) {
-                        SupplierAddress::create(
+
+                // Perbarui atau tambahkan alamat supplier
+                if (isset($validatedData['supplier_address']) && is_array($validatedData['supplier_address'])) {
+                    foreach ($validatedData['supplier_address'] as $single) {
+                        SupplierAddress::updateOrCreate(
                             [
-                                'supplier_id' => $data,
+                                'supplier_id' => $supplier->id
+                            ],
+                            [
                                 'address' => $single['address'],
                                 'city' => $single['city'],
                                 'state' => $single['state'],
@@ -77,29 +78,46 @@ class SupplierController extends Controller
                             ]
                         );
                     }
+                }
 
-                    // Update or create companies and transactions
-                    foreach ($request -> company as $companyData) {
-                        $company = Company::create(
-                            [
-                                'supplier_id' => $data->id,
-                                'company_name' => $companyData['company_name'],
-                                'address' => $companyData['address'],
-                                'city' => $companyData['city'],
-                                'state' => $companyData['state'],
-                                'postal_code' => $companyData['postal_code'],
-                                'country' => $companyData['country'],
-                                'phone_number' => $companyData['phone_number'],
-                                'website' => $companyData['website'],
-                            ]
-                        );
+                    // Hapus perusahaan dan transaksi supplier terkait yang tidak diperlukan
+                $existingCompanyIds = Company::where('supplier_id', $id)->pluck('id')->toArray();
+                $newCompanies = $validatedData['company'] ?? [];
 
+                foreach ($existingCompanyIds as $companyId) {
+                    if (!isset($newCompanies[$companyId])) {
+                        TransaksiSupplier::where('company_id', $companyId)->delete();
+                        Company::where('id', $companyId)->delete();
+                    }
+                }
+
+                // Tambahkan kembali atau perbarui perusahaan dan transaksi supplier yang baru
+                foreach ($validatedData['company'] as $companyData) {
+                    $newCompany = Company::updateOrCreate(
+                        [
+                            'supplier_id' => $supplier->id
+                        ],
+                        [
+                            'company_name' => $companyData['company_name'],
+                            'address' => $companyData['address'],
+                            'city' => $companyData['city'],
+                            'state' => $companyData['state'],
+                            'postal_code' => $companyData['postal_code'],
+                            'country' => $companyData['country'],
+                            'phone_number' => $companyData['phone_number'],
+                            'website' => $companyData['website'],
+                        ]
+                    );
+
+                    if (isset($companyData['transaksi']) && is_array($companyData['transaksi'])) {
                         foreach ($companyData['transaksi'] as $transaksiData) {
-                            TransaksiSupplier::create(
+                            TransaksiSupplier::updateOrCreate(
                                 [
-                                    'barang_id' => $transaksiData['barang_id'],
+                                    'company_id' => $newCompany->id,
+                                    'barang_id' => $transaksiData['barang_id']
+                                ],
+                                [
                                     'satuan_id' => $transaksiData['satuan_id'],
-                                    'company_id' => $company->id,
                                     'transaction_date' => $transaksiData['transaction_date'],
                                     'amount' => $transaksiData['amount'],
                                     'transaction_type' => $transaksiData['transaction_type'],
@@ -108,12 +126,11 @@ class SupplierController extends Controller
                             );
                         }
                     }
-                    $result = [
-                        'message' => 'Success',
-                        'error' => 'False'
-                    ];
-                    return response($result, Response::HTTP_CREATED);
-                    }
+                }
+
+                return response()->json(['message' => 'Supplier updated successfully'], Response::HTTP_OK);
+            }
+
 
 
 
